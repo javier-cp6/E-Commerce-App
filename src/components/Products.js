@@ -4,7 +4,13 @@ import { Row, Col, Card, Button, Container } from "react-bootstrap"
 
 export default function Products() {
   const [products, setProducts] = useState([])
+  const [filteredProducts, setFilteredProducts] = useState([])
   const [categories, setCategories] = useState([])
+
+
+  const filterProducts = (e) => {
+    setFilteredProducts(products.filter((prd) => prd.category === e.target.innerText.charAt(0).toLowerCase() + e.target.innerText.slice(1)))
+  }
 
   // useEffect(() => {
   //   getProducts().then((data) => {
@@ -17,6 +23,7 @@ export default function Products() {
         try {
             const arrProducts = await getProducts()
             setProducts(arrProducts)
+            setFilteredProducts(arrProducts)
             const arrCategories = arrProducts.map((item) => item.category)
             // console.log(arrCategories)
             const uniqueCategories = [...new Set(arrCategories)]
@@ -31,15 +38,15 @@ export default function Products() {
   return (
     <>
       <Container className="text-center">
-        <Button variant="outline-dark m-2">All</Button>
+        <Button variant="outline-dark m-2" onClick={(e) => {setFilteredProducts(products)}}>All</Button>
         {categories.map((item,i) => (
-          <Button key={i} variant="outline-dark m-2">{item.charAt(0).toUpperCase() + item.slice(1)}</Button>
+          <Button key={i} variant="outline-dark m-2" onClick={(e) => {filterProducts(e)}}>{item.charAt(0).toUpperCase() + item.slice(1)}</Button>
         ))}
       </Container>
       <Container>
         <h1 className="text-center display-5 fw-bold m-2">Latest Products</h1>
         <Row xs={1} sm={2} md={3} lg={4} className="g-4">
-          {products.map((item, i) => (
+          {filteredProducts.map((item, i) => (
             // <Col className="col-sm-6 col-md-4 col-lg-3">
             <Col key={i}>
               {/* default <Card style={{ width: "18rem" }} */}

@@ -16,6 +16,10 @@ const getProducts = () => {
         }) 
 }
 
+
+const filterProducts = () => {
+    
+}
 export {
     getProducts
 }
