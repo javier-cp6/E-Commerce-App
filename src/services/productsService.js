@@ -6,7 +6,7 @@ const getProducts = () => {
     return axios.get(URL)
         .then(({data, status}) => {
             if(status === 200) {
-                console.log(data)
+                // console.log(data)
                 return data
             }
         })
